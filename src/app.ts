@@ -9,6 +9,8 @@ import authRouter from './routes/auth.routes';
 import userRouter from './routes/user.routes';
 import restaurantRouter from './routes/restaurant.routes';
 import { errorHandler } from "./middlewares/error.middleware";
+import menuRouter from './routes/menu.routes';
+import cartRouter from './routes/cart.routes';
 const app = express();
 dotenv.config();
 
@@ -25,6 +27,8 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/user", userRouter); 
 app.use("/api/v1/admin", userRouter);
 app.use("/api/v1/restaurant", restaurantRouter);
+app.use("/api/v1/restaurants/menu", menuRouter);
+app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/table", tableRouter);
 
 // Global Error Handler

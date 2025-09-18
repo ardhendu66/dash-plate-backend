@@ -42,7 +42,19 @@ class InvalidObjectIdError extends ApiError {
     }
 }
 
+class ActionNotAllowedError extends ApiError {
+    constructor(message: string) {
+        super(403, message);
+    }
+}
+
 export { 
-    ApiError, ConflictError, UnauthorizedError, BadRequestError, ServiceUnavailableError,
-    ServiceNotFoundError , InvalidObjectIdError
+    ApiError, 
+    ConflictError, 
+    UnauthorizedError, 
+    BadRequestError, 
+    ServiceUnavailableError,
+    ServiceNotFoundError , 
+    InvalidObjectIdError, 
+    ActionNotAllowedError
 };

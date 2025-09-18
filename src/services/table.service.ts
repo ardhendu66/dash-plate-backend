@@ -34,15 +34,16 @@ const tableService = {
                     'user' || gs || '@example.com',
                     '$2a$12$Yfo89zIgVFrEVy5PR7uPF.6CJfRigPTZ4GqpG47vecyDXXx7teDPC',
                     '9083000000'::bigint + gs,
-                    (ARRAY['user','vendor','delivery','admin'])[floor(random()*4 + 1)],
+                    (ARRAY['user','vendor','delivery'])[floor(random()*3 + 1)],
                     NOW() - (random() * interval '365 days')
-                FROM generate_series(1, 30000) gs;
+                FROM generate_series(1, 50000) gs;
 
             `;
             await pool.query(bulkUsersQuery);
-            return '30K Bulk Users inserted successfully';
+            return '50K Bulk Users inserted successfully';
         }
         catch (err) {
+            console.log("Bulk-User Inserting Error: ", err);            
             throw new BadRequestError("Error inserting users in USER table");
         }
     },
@@ -52,9 +53,10 @@ const tableService = {
             const deleteUsersQuery = `TRUNCATE TABLE users RESTART IDENTITY CASCADE`;
             // faster than DELETE, id sequence will be reset(from 1) too
             await pool.query(deleteUsersQuery);
-            return "30K users deleted successfully";
+            return "50K users deleted successfully";
         }
         catch (err) {
+            console.log("Bulk-User Deleting Error: ", err);            
             throw new BadRequestError("Error deleting users from USER table");
         }
     }
