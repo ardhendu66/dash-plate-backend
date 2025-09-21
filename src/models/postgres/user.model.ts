@@ -16,14 +16,14 @@ const UserModel: UserModelDto = {
     // find user by id
     async findUserById(id: number): Promise<User | null> {
         const result = await pool.query(
-            `SELECT id, name, email, mobile, role, created_at FROM users WHERE id = $1`, [id]
+            `SELECT * FROM users WHERE id = $1`, [id]
         );
         return result.rows[0] || null;
     },
     // find a user by email-id
     async findUserByEmail(email: string): Promise<User | null> {
         const result = await pool.query(
-            `SELECT id, name, email, mobile, role, created_at FROM users WHERE email = $1`, [email]
+            `SELECT * FROM users WHERE email = $1`, [email]
         );
         return result.rows[0] || null;
     },

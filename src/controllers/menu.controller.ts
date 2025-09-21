@@ -4,6 +4,8 @@ import { createMenuItemSchema, updateMenuItemSchema } from "../validators/menu.v
 import { catchAsync } from "../utils/catchAsync";
 
 const addMenuItem = catchAsync(async (req: Request, res: Response) => {
+    const { restaurantId } = req.params;
+    console.log(`POST /api/v1/restaurants/menu/${restaurantId}`);
     const validatedData = createMenuItemSchema.parse(req.body);
     const ownerId = req.user!.id;
     const menuItem = await menuService.addMenuItem(ownerId, validatedData);
@@ -17,6 +19,7 @@ const addMenuItem = catchAsync(async (req: Request, res: Response) => {
 
 const getMenuItems = catchAsync(async (req: Request, res: Response) => {
     const { restaurantId } = req.params;
+    console.log(`GET /api/v1/restaurants/menu/${restaurantId}`);
     const menuItems = await menuService.getMenuItems(restaurantId);
 
     return res.status(200).json({
@@ -29,6 +32,7 @@ const getMenuItems = catchAsync(async (req: Request, res: Response) => {
 const updateMenuItem = catchAsync(async (req: Request, res: Response) => {
     const validatedData = updateMenuItemSchema.parse(req.body);
     const { restaurantId, itemId } = req.params;
+    console.log(`PUT /api/v1/restaurants/menu/${restaurantId}/${itemId}`);
     const ownerId = req.user!.id;
 
     const updated = await menuService.updateMenuItem(
@@ -47,6 +51,7 @@ const updateMenuItem = catchAsync(async (req: Request, res: Response) => {
 
 const deleteMenuItem = catchAsync(async (req: Request, res: Response) => {
     const { restaurantId, itemId } = req.params;
+    console.log(`DELETE /api/v1/restaurants/menu/${restaurantId}/${itemId}`);
     const ownerId = (req as any).user.id;
 
     await menuService.deleteMenuItem(ownerId, restaurantId, itemId);

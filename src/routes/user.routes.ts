@@ -6,12 +6,12 @@ import { authenticate, authorizeRoles } from "../middlewares/auth.middleware";
 const userRouter = Router();
 
 // logged-in user
-userRouter.route("/profile").get(authenticate, getMyProfile);
-userRouter.route("/profile/update").put(authenticate, updateMyProfile);
+userRouter.route("/users/me").get(authenticate, getMyProfile);
+userRouter.route("/users/me").put(authenticate, updateMyProfile);
 
 // admin-only
-userRouter.route("/all-users").get(authenticate, authorizeRoles("admin"), getAllUsers);
-userRouter.route("/:id/update/role").put(authenticate, authorizeRoles("admin"), updateUserRole);
-userRouter.route("/:id/delete").delete(authenticate, authorizeRoles("admin"), deleteUser);
+userRouter.route("/admin/users/all").get(authenticate, authorizeRoles("admin"), getAllUsers);
+userRouter.route("/admin/users/:id/role").put(authenticate, authorizeRoles("admin"), updateUserRole);
+userRouter.route("/admin/users/:id/delete").delete(authenticate, authorizeRoles("admin"), deleteUser);
 
 export default userRouter;

@@ -8,6 +8,7 @@ import { catchAsync } from "../utils/catchAsync";
 import { ServiceNotFoundError } from "../utils/GlobalError";
 
 const createRestaurant = catchAsync(async (req: AuthRequest, res: Response) => {
+    console.log(`POST /api/v1/restaurant`);
     const validated = createRestaurantSchema.parse(req.body);
 
     const restaurant = await restaurantService.createRestaurant({ 
@@ -23,6 +24,7 @@ const createRestaurant = catchAsync(async (req: AuthRequest, res: Response) => {
 });
 
 const listRestaurants = catchAsync(async (req: Request, res: Response) => {
+    console.log(`GET /api/v1/restaurant/all`);
     const { query, cuisine, page = "1", limit = "10", ownerId } = req.query;
 
     const result = await restaurantService.getRestaurants({
@@ -38,6 +40,7 @@ const listRestaurants = catchAsync(async (req: Request, res: Response) => {
 
 const getRestaurant = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params;
+    console.log(`GET /api/v1/restaurant/${id}`);
     const restaurant = await restaurantService.getRestaurantById(id);
 
     if(!restaurant) {
@@ -49,6 +52,7 @@ const getRestaurant = catchAsync(async (req: Request, res: Response) => {
 
 const updateRestaurant = catchAsync(async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
+    console.log(`PUT /api/v1/restaurant/${id}`);
     const validated = updateRestaurantSchema.parse(req.body);
 
     const ownerId = req.user!.role === "vendor" ? Number(req.user!.id) : undefined;
@@ -64,6 +68,7 @@ const updateRestaurant = catchAsync(async (req: AuthRequest, res: Response) => {
 
 const deleteRestaurant = catchAsync(async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
+    console.log(`DELETE /api/v1/restaurant/${id}`);
 
     const ownerId = req.user!.role === "vendor" ? Number(req.user!.id) : undefined;
 

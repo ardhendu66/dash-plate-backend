@@ -4,6 +4,7 @@ import { catchAsync } from "../utils/catchAsync";
 import { UnauthorizedError } from "../utils/GlobalError";
 
 const getCart = catchAsync(async (req: Request, res: Response) => {
+    console.log(`GET /api/v1/cart`);
     const userId = req.user!.id;
     const cart = await cartService.getCart(userId);
     return res.status(200).json({
@@ -15,6 +16,7 @@ const getCart = catchAsync(async (req: Request, res: Response) => {
 const addItem = catchAsync(async (req: Request, res: Response) => {
     const userId = req.user!.id;
     const { restaurantId, menuItemId } = req.params;
+    console.log(`POST /api/v1/cart/${restaurantId}/${menuItemId}`); 
     const { price } = req.query;
     if(typeof price !== "string") {
         console.log("Please ensure you entered correct price query format");        
@@ -29,6 +31,7 @@ const addItem = catchAsync(async (req: Request, res: Response) => {
 const removeItem = catchAsync(async (req: Request, res: Response) => {
     const userId = req.user!.id;
     const { menuItemId } = req.params;
+    console.log(`PUT /api/v1/cart/${menuItemId}`);
     const cart = await cartService.removeItem(userId, menuItemId);
     return res.status(202).json({
         cart, message: cart ? "Item removed from Cart" : "Cart is Empty"
@@ -36,6 +39,7 @@ const removeItem = catchAsync(async (req: Request, res: Response) => {
 });
 
 const clearCart = catchAsync(async (req: Request, res: Response) => {
+    console.log(`DELETE /api/v1/cart`);
     const userId = req.user!.id;
     await cartService.clearCart(userId);
     return res.status(202).json({ message: "Cart cleared successfully" });

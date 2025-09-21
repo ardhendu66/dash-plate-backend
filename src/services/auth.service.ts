@@ -32,14 +32,14 @@ const authService = {
             user: sanitizeUser(user), accessToken, refreshToken
         };
     },
-    login: async function (email: string, password: string) {
-        const existingUser = await UserModel.findUserByEmail(email);
+    login: async function (email: string, password: string) {     
+        const existingUser = await UserModel.findUserByEmail(email);      
 
         if (!existingUser) {
             throw new UnauthorizedError("Invalid credentials");
         }
 
-        const isMatch = await bcrypt.compare(password, existingUser.password);
+        const isMatch = await bcrypt.compare(password, existingUser.password);        
 
         if (!isMatch) {
             throw new UnauthorizedError("Invalid credentials");

@@ -23,8 +23,7 @@ app.use(rateLimit({
 }));
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/user", userRouter); 
-app.use("/api/v1/admin", userRouter);
+app.use("/api/v1", userRouter);
 app.use("/api/v1/restaurant", restaurantRouter);
 app.use("/api/v1/restaurants/menu", menuRouter);
 app.use("/api/v1/cart", cartRouter);
