@@ -1,38 +1,21 @@
 import http from "http";
-import { Server as SocketServer } from "socket.io";
+import dotenv from "dotenv";
 import { connectPostgres } from "./config/db/postgres.db";
 import connectMongo from "./config/db/mongo.db";
 import app from "./app";
-import dotenv from "dotenv";
+import { initSocket } from "./socket";
+
 dotenv.config();
-
 const port = process.env.PORT || 3000;
+
 const server = http.createServer(app);
-const io = new SocketServer(server, {
-    cors: {
-        origin: "*",
-        // methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    }
-});
-
-io.on("connection", (socket) => {
-    console.log(`Client_${socket.id} connected`);
-
-    socket.on("disconnect", () => {
-        console.log(`Client_${socket.id} disconnected:`);
-    });
-})
-
+initSocket(server);
 
 // Start the server
-async function startingOurServer() {
+async function main() {
     try {
-        // Postgres DB connection test
         await connectPostgres();
-
-        // MongoDB connection test
         await connectMongo();
-
         server.listen(port, () => {
             console.log(`🚀 Server running... http://localhost:${port}`);
         });
@@ -43,4 +26,4 @@ async function startingOurServer() {
     }
 }
 
-startingOurServer();
+main();

@@ -48,6 +48,7 @@
     "multer": "^2.0.2",
     "pg": "^8.16.3",
     "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "typescript": "^5.9.2",
     "winston": "^3.17.0",
     "zod": "^4.1.7"

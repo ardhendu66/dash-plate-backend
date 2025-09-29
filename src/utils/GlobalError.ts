@@ -48,6 +48,12 @@ class ActionNotAllowedError extends ApiError {
     }
 }
 
+class WebsocketConnectionError extends ApiError {
+    constructor(message: string) {
+        super(405, message);
+    }
+}
+
 export { 
     ApiError, 
     ConflictError, 
@@ -56,5 +62,6 @@ export {
     ServiceUnavailableError,
     ServiceNotFoundError , 
     InvalidObjectIdError, 
-    ActionNotAllowedError
+    ActionNotAllowedError,
+    WebsocketConnectionError,
 };

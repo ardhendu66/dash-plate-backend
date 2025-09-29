@@ -3,32 +3,29 @@ import dotenv from "dotenv";
 import { ServiceUnavailableError } from "../../utils/GlobalError";
 dotenv.config();
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL, });
-
-// Postgres Connection set-up
-// pool.on("connect", async () => {
-//     await pool.query("SELECT NOW()");
-//     console.log("✅ Connected to PostgreSQL database");
-// });
-
-// pool.on("error", (err) => {
-//     console.error("❌ PostgreSQL connection error:", err);
-//     throw new ServiceUnavailableError(
-//         "Trouble connecting to our postgres. Please try again in a moment."
-//     );
-// });
+const pool = new Pool({ 
+    connectionString: process.env.DATABASE_URL, 
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+});
 
 const connectPostgres = async () => {
     try {
-        await pool.connect();
+        const client = await pool.connect();
+        await client.query("SELECT NOW()");
         console.log("✅ PostgreSQL connection established");
+        client.release();
     }
-    catch (err) {
-        console.error("❌ PostgreSQL connection error:", err);
-        throw new ServiceUnavailableError(
-            "We're having trouble connecting to our postgres. Please try again in a moment."
-        );
+    catch(err: any) {
+        console.error("❌ PostgreSQL connection error:", err.message);
+        throw new ServiceUnavailableError(err.message);
     }
 }
+
+// Log errors without crashing the server
+pool.on("error", (err) => {
+    console.error("❌ Unexpected PostgreSQL error:", err.message);
+});
 
 export { pool, connectPostgres };

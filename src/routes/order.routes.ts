@@ -10,7 +10,7 @@ const orderRouter = Router();
 orderRouter.route("/").get(authenticate, getMyOrders);
 orderRouter.route("/:restaurantId").get(authenticate, getRestaurantOrders);
 orderRouter.route("/place").post(authenticate, placeOrder);
-orderRouter.route("/:orderId").put(authenticate, changeOrderStatus);
+orderRouter.route("/:orderId").put(changeOrderStatus);
 orderRouter.route("/:orderId/payment").put(authenticate, changePaymentStatus);
 
 export default orderRouter;
