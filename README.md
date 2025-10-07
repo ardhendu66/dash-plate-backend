@@ -85,8 +85,6 @@ REDIS_PASSWORD=<YOUR_REDIS_PASSWORD>
 ```bash
 docker-compose build
 docker-compose up
-```
-# or
-```bash
+# OR
 npm run dev
 ```
